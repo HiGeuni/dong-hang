@@ -32,12 +32,12 @@ export const QuestionLayout = ({
       <h1 className="absolute top-[25%] left-1/2 -translate-x-1/2 w-full text-2xl font-bold">
         {title}
       </h1>
-      <div className="absolute top-[45%] left-1/2 -translate-x-1/2 w-full ">
+      <div className="absolute top-[45%] left-1/2 -translate-x-1/2 w-[300px] md:w-[600px] lg:w-[800px]">
         {children}
       </div>
       <Link to={to}>
         <Button
-          className="absolute bottom-8 w-3/5 left-0 right-0 mx-auto"
+          className="absolute bottom-8 w-[300px] md:w-[600px] lg:w-[800px] left-0 right-0 mx-auto"
           disabled={disabled}
         >
           다음으로
