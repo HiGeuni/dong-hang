@@ -9,10 +9,16 @@ const Main = () => {
         src="/logo.png"
       />
       <Link to="/onBoarding">
-        <Button className="absolute bottom-8 w-[300px] md:w-[600px] lg:w-[800px] left-0 right-0 mx-auto">
+        <Button className="absolute bottom-20 w-[300px] md:w-[600px] lg:w-[800px] left-0 right-0 mx-auto">
           내 정보 입력하기
         </Button>
       </Link>
+      <Link to="/onBoarding/result">
+        <Button className="absolute bottom-8 w-[300px] md:w-[600px] lg:w-[800px] left-0 right-0 mx-auto">
+          정보 입력 넘기기
+        </Button>
+      </Link>
+
     </section>
   );
 };
