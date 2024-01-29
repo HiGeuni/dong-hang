@@ -80,7 +80,7 @@ const Chat = () => {
         </div>
         <div className="fixed bottom-4 w-full px-2 md:w-[600px] lg:w-[800px] flex items-center gap-2">
           <Input
-            placeholder="Search"
+            placeholder="Input your message"
             value={chat}
             onChange={(e) => {
               console.log(e.target.value);
