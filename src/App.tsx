@@ -5,6 +5,7 @@ import OnBoarding from './pages/Onboarding';
 import SelectLocation from './pages/SelectLocation';
 import JobStatus from './pages/JobStatus';
 import Result from './pages/Result';
+import Chat from './pages/Chat';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/onBoarding/location" element={<SelectLocation />} />
       <Route path="/onBoarding/status" element={<JobStatus />} />
       <Route path="/onBoarding/result" element={<Result />} />
+      <Route path="/chat" element={<Chat />} />
     </Routes>
   );
 }

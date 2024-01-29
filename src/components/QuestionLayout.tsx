@@ -4,9 +4,10 @@ import { ArrowLeft } from 'lucide-react';
 
 interface QuestionLayoutProps {
   children: React.ReactNode;
-  title: string;
-  disabled: boolean;
+  title?: string;
+  disabled?: boolean;
   to: string;
+  navigationName?: string;
 }
 
 export const QuestionLayout = ({
@@ -14,6 +15,7 @@ export const QuestionLayout = ({
   children,
   disabled,
   to,
+  navigationName = '다음으로',
 }: QuestionLayoutProps) => {
   const navigate = useNavigate();
 
@@ -23,26 +25,25 @@ export const QuestionLayout = ({
 
   return (
     <div className="relative w-full h-full">
-      <div
-        className="float-left m-4 flex gap-x-2 text-sm items-center cursor-pointer"
-        onClick={handleOnBackClick}
-      >
-        <ArrowLeft size={16} />
+      <div className="mx-auto w-full md:w-[600px] lg:w-[800px]">
+        <nav className="pl-4 pt-4 md:pl-0" onClick={handleOnBackClick}>
+          <ArrowLeft size={20} />
+        </nav>
+        <h1 className="absolute top-[25%] left-1/2 -translate-x-1/2 w-full text-2xl font-bold">
+          {title}
+        </h1>
+        <div className="absolute top-[45%] left-1/2 -translate-x-1/2 w-[300px] md:w-[600px] lg:w-[800px]">
+          {children}
+        </div>
+        <Link to={to}>
+          <Button
+            className="absolute bottom-8 w-[300px] md:w-[600px] lg:w-[800px] left-0 right-0 mx-auto"
+            disabled={disabled}
+          >
+            {navigationName}
+          </Button>
+        </Link>
       </div>
-      <h1 className="absolute top-[25%] left-1/2 -translate-x-1/2 w-full text-2xl font-bold">
-        {title}
-      </h1>
-      <div className="absolute top-[45%] left-1/2 -translate-x-1/2 w-[300px] md:w-[600px] lg:w-[800px]">
-        {children}
-      </div>
-      <Link to={to}>
-        <Button
-          className="absolute bottom-8 w-[300px] md:w-[600px] lg:w-[800px] left-0 right-0 mx-auto"
-          disabled={disabled}
-        >
-          다음으로
-        </Button>
-      </Link>
     </div>
   );
 };
