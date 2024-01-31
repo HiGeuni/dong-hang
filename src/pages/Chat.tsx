@@ -1,18 +1,20 @@
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import dayjs from 'dayjs';
-import { Send } from 'lucide-react';
+import {MoreHorizontal, Send} from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import {postMessage} from "@/api/chat.ts";
 
-type ChatProps = {
+interface ChatProps  {
   content: string;
   time: string;
   isMe: boolean;
-};
+}
 
 const Chat = () => {
   const [data, setData] = useState<ChatProps[]>(dummyData);
   const [chat, setChat] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const divRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -21,17 +23,35 @@ const Chat = () => {
     }
   };
 
-  const onClickSend = useCallback(() => {
-    setData([
-      ...data,
-      {
-        content: chat,
-        time: dayjs().format('HH:mm'),
-        isMe: true,
-      },
-    ]);
+  const onClickSend = useCallback(async () => {
+    if (chat === '' || isLoading) return;
+
+    // Set my data
+    const newChatData: ChatProps = {
+      content: chat,
+      time: dayjs().format('HH:mm'),
+      isMe: true,
+    };
+
+    setData((prevData) => [...prevData, newChatData]);
     setChat('');
-  }, [chat, data]);
+    setIsLoading(true);
+    await receiveMessage();
+    setIsLoading(false);
+  }, [chat, data, isLoading]);
+
+  const receiveMessage = async () => {
+    const response = await postMessage(chat);
+
+    // Set my data
+    const newChatData: ChatProps = {
+      content: response.message,
+      time: dayjs().format('HH:mm'),
+      isMe: false,
+    };
+
+    setData((prevData) => [...prevData, newChatData]);
+  };
 
   useEffect(() => {
     scrollToBottom();
@@ -44,6 +64,7 @@ const Chat = () => {
       }
     };
     window.addEventListener('keydown', handleKeyDown);
+
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClickSend]);
 
@@ -76,10 +97,18 @@ const Chat = () => {
               </div>
             )
           )}
+          {isLoading && (
+            <div className="w-full">
+              <div className="w-max max-w-[330px] sm:max-w-[500px] md:max-w-[600px] lg:max-w-[800px] p-4 leading-tight flex items-center rounded-lg bg-slate-600 text-white ">
+                <MoreHorizontal size={24} />
+              </div>
+            </div>
+          )}
           <div ref={divRef} />
         </div>
         <div className="fixed bottom-4 w-full px-2 md:w-[600px] lg:w-[800px] flex items-center gap-2">
           <Input
+            disabled={isLoading}
             placeholder="Input your message"
             value={chat}
             onChange={(e) => {
